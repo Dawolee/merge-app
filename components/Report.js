@@ -8,7 +8,7 @@ export default class Report extends React.Component {
     const { navigate } = this.props.navigation
     return (
       <View>
-        {Navbar('Send Report', navigate)}
+        <Navbar text="Send Report" fn={navigate} />
         <Text> Placeholder for Report</Text>
       </View>
     )

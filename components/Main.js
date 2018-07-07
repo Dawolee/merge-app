@@ -9,20 +9,6 @@ export default class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = { currentUser: null, selectedIndex: 1 }
-    this.updateIndex = this.updateIndex.bind(this)
-  }
-
-  updateIndex(selectedIndex) {
-    const { navigate } = this.props.navigation
-    this.setState({ selectedIndex }, () => {
-      if (selectedIndex === 0) {
-        navigate('Search')
-      } else if (selectedIndex === 1) {
-        navigate('Main')
-      } else if (selectedIndex === 2) {
-        navigate('Report')
-      }
-    })
   }
 
   handleLogout = () => {
@@ -41,19 +27,9 @@ export default class Main extends React.Component {
   render() {
     const { currentUser } = this.state
     const { navigate } = this.props.navigation
-    const buttons = ['Search', 'Home', 'Report']
-    const { selectedIndex } = this.state
     return (
       <View>
-        {Navbar('My Home', navigate)}
-        <ButtonGroup
-          onPress={this.updateIndex}
-          selectedIndex={selectedIndex}
-          buttons={buttons}
-          containerStyle={{
-            height: heightPercentageToDP('5%')
-          }}
-        />
+        <Navbar text="My Home" fn={navigate} />
         <View>
           <Text>Hi {currentUser && currentUser.email}!</Text>
           )

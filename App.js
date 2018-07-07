@@ -1,6 +1,14 @@
 import { createStackNavigator } from 'react-navigation'
 
-import { Main, Login, Splash, Settings, Report, Search } from './components'
+import {
+  Main,
+  Login,
+  Splash,
+  Settings,
+  Report,
+  Search,
+  Navbar
+} from './components'
 
 const RootNavigator = createStackNavigator(
   {
@@ -36,6 +44,12 @@ const RootNavigator = createStackNavigator(
     },
     Search: {
       screen: Search,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Navbar: {
+      screen: Navbar,
       navigationOptions: {
         header: null
       }

@@ -64,7 +64,6 @@ export default class Login extends React.Component {
         />
         {this.state.type === 'signup' && (
           <TextInput
-            secureTextEntry
             style={styles.textInput}
             autoCapitalize="none"
             placeholder="License Plate Number"

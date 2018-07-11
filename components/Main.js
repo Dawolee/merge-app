@@ -1,22 +1,17 @@
 import React from 'react'
 import { StyleSheet, Platform, Image, Text, View, Button } from 'react-native'
-import { ButtonGroup, Header } from 'react-native-elements'
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
+import { Navbar } from './index'
 import fire from './fire'
-import Navbar from './Navbar'
-import { widthPercentageToDP, heightPercentageToDP } from './DimensionsHelper'
+import Search from './Search'
+import Settings from './Settings'
+import Report from './Report'
+import Icon from 'react-native-vector-icons/Ionicons'
 
-export default class Main extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props)
     this.state = { currentUser: null, selectedIndex: 1 }
-  }
-
-  handleLogout = () => {
-    fire
-      .auth()
-      .signOut()
-      .then(() => this.props.navigation.navigate('Splash'))
-      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   componentDidMount() {
@@ -29,11 +24,12 @@ export default class Main extends React.Component {
     const { navigate } = this.props.navigation
     return (
       <View>
-        <Navbar text="My Home" fn={navigate} />
         <View>
-          <Text>Hi {currentUser && currentUser.email}!</Text>
+          <Navbar text="Home" fn={navigate} />
+          <Text style={{ textAlign: 'center' }}>
+            Welcome {currentUser && currentUser.email}!
+          </Text>
           )
-          <Button title="Log Out" onPress={this.handleLogout} />
           <View style={styles.container}>
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.box}>Speeding</Text>
@@ -53,6 +49,52 @@ export default class Main extends React.Component {
     )
   }
 }
+
+export default createMaterialBottomTabNavigator(
+  {
+    Main: {
+      screen: Main,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-home" color={tintColor} size={24} />
+        )
+      }
+    },
+    Search: {
+      screen: Search,
+      navigationOptions: {
+        tabBarLabel: 'Search',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-search" color={tintColor} size={24} />
+        )
+      }
+    },
+    Settings: {
+      screen: Settings,
+      navigationOptions: {
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-settings" color={tintColor} size={24} />
+        )
+      }
+    },
+    Report: {
+      screen: Report,
+      navigationOptions: {
+        tabBarLabel: 'Report',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-flag" color={tintColor} size={24} />
+        )
+      }
+    }
+  },
+  {
+    initialRouteName: 'Main',
+    activeTintColor: 'black',
+    barStyle: { backgroundColor: 'white' }
+  }
+)
 
 const styles = StyleSheet.create({
   container: {

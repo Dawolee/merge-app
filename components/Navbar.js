@@ -1,54 +1,31 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { ButtonGroup, Header } from 'react-native-elements'
-import { widthPercentageToDP, heightPercentageToDP } from './DimensionsHelper'
+import { View } from 'react-native'
+import { Header } from 'react-native-elements'
+import fire from './fire'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default class Navbar extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { selectedIndex: 1 }
-    this.updateIndex = this.updateIndex.bind(this)
-  }
-
-  updateIndex(selectedIndex) {
-    const { fn } = this.props
-    this.setState({ selectedIndex }, () => {
-      if (selectedIndex === 0) {
-        fn('Search')
-      } else if (selectedIndex === 1) {
-        fn('Main')
-      } else if (selectedIndex === 2) {
-        fn('Report')
-      }
-    })
+  handleLogout = () => {
+    fire
+      .auth()
+      .signOut()
+      .then(() => this.props.navigation.navigate('Splash'))
+      .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render() {
-    let { text, fn } = this.props
-    const { selectedIndex } = this.state
-    const buttons = ['Search', 'Home', 'Report']
+    let { text } = this.props
     return (
       <View>
         <Header
-          leftComponent={{
-            icon: 'face',
-            color: '#fff',
-            onPress: () => fn('Settings')
+          style={{ marginTop: 5 }}
+          centerComponent={{
+            text: text,
+            style: { color: '#fff', fontSize: 16 }
           }}
-          centerComponent={{ text: text, style: { color: '#fff' } }}
-          rightComponent={{
-            icon: 'home',
-            color: '#fff',
-            onPress: () => fn('Main')
-          }}
-        />
-        <ButtonGroup
-          onPress={this.updateIndex}
-          selectedIndex={selectedIndex}
-          buttons={buttons}
-          containerStyle={{
-            height: heightPercentageToDP('5%')
-          }}
+          rightComponent={
+            <Icon name="ios-log-out" size={24} onPress={this.handleLogout} />
+          }
         />
       </View>
     )

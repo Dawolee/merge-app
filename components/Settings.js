@@ -5,11 +5,10 @@ import Navbar from './Navbar'
 
 export default class Settings extends React.Component {
   render() {
-    const { navigate, goBack } = this.props.navigation
+    const { navigate } = this.props.navigation
     return (
       <View>
         <Navbar text="My Settings" fn={navigate} />
-        <Button title="Go Back" onPress={() => goBack()} />
         <TextInput
           style={styles.textInput}
           autoCapitalize="none"

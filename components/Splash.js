@@ -30,7 +30,7 @@ export default class Splash extends React.Component {
         source={mergePicture}
         style={{ width: '100%', height: '100%' }}
       >
-        <Text style={{ fontSize: 30, textAlign: 'center', marginTop: 30 }}>
+        <Text style={{ fontSize: 30, textAlign: 'center', marginTop: 50 }}>
           MERGE
         </Text>
         <View style={styles.container}>

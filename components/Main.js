@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Platform, Image, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import { Navbar } from './index'
 import fire from './fire'
@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 class Main extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { currentUser: null, selectedIndex: 1 }
+    this.state = { currentUser: null }
   }
 
   componentDidMount() {
@@ -21,28 +21,30 @@ class Main extends React.Component {
 
   render() {
     const { currentUser } = this.state
-    const { navigate } = this.props.navigation
+    console.log(currentUser)
     return (
       <View>
         <View>
-          <Navbar text="Home" fn={navigate} />
+          <Navbar text="Home" left={false} />
           <Text style={{ textAlign: 'center' }}>
             Welcome {currentUser && currentUser.email}!
           </Text>
           )
           <View style={styles.container}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.box}>Speeding</Text>
-              <Text style={styles.box}>Bad Parking</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.box}>Too Slow</Text>
-              <Text style={styles.box}>Erratic</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={styles.box}>Texting</Text>
-              <Text style={styles.box}>Red Lights / Stop Signs</Text>
-            </View>
+            <ScrollView>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.box}>Speeding</Text>
+                <Text style={styles.box}>Bad Parking</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.box}>Too Slow</Text>
+                <Text style={styles.box}>Erratic</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.box}>Texting</Text>
+                <Text style={styles.box}>Red Lights / Stop Signs</Text>
+              </View>
+            </ScrollView>
           </View>
         </View>
       </View>

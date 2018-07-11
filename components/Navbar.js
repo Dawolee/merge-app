@@ -14,19 +14,35 @@ export default class Navbar extends Component {
   }
 
   render() {
-    let { text } = this.props
+    let { text, left } = this.props
     return (
       <View>
-        <Header
-          style={{ marginTop: 5 }}
-          centerComponent={{
-            text: text,
-            style: { color: '#fff', fontSize: 16 }
-          }}
-          rightComponent={
-            <Icon name="ios-log-out" size={24} onPress={this.handleLogout} />
-          }
-        />
+        {left ? (
+          <Header
+            style={{ marginTop: 5 }}
+            leftComponent={
+              <Icon name="ios-arrow-back" size={24} onPress={() => left()} />
+            }
+            centerComponent={{
+              text: text,
+              style: { color: '#fff', fontSize: 16 }
+            }}
+            rightComponent={
+              <Icon name="ios-log-out" size={24} onPress={this.handleLogout} />
+            }
+          />
+        ) : (
+          <Header
+            style={{ marginTop: 5 }}
+            centerComponent={{
+              text: text,
+              style: { color: '#fff', fontSize: 16 }
+            }}
+            rightComponent={
+              <Icon name="ios-log-out" size={24} onPress={this.handleLogout} />
+            }
+          />
+        )}
       </View>
     )
   }

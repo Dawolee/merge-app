@@ -5,10 +5,9 @@ import Navbar from './Navbar'
 
 export default class Report extends React.Component {
   render() {
-    const { navigate } = this.props.navigation
     return (
       <View>
-        <Navbar text="Send Report" fn={navigate} />
+        <Navbar text="Send Report" left={false} />
         <Text> Placeholder for Report</Text>
       </View>
     )

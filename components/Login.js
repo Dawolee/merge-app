@@ -10,7 +10,8 @@ export default class Login extends React.Component {
       password: '',
       errorMessage: null,
       type: 'login',
-      licensePlate: null
+      licensePlate: null,
+      username: null
     }
   }
 
@@ -32,7 +33,8 @@ export default class Login extends React.Component {
       .then(user =>
         db.ref('users').push({
           email: this.state.email,
-          licensePlateNumber: this.state.licensePlate
+          licensePlateNumber: this.state.licensePlate,
+          username: this.state.username
         })
       )
       .then(() => this.props.navigation.navigate('Main'))
@@ -54,14 +56,15 @@ export default class Login extends React.Component {
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
-        <TextInput
-          secureTextEntry
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Password"
-          onChangeText={password => this.setState({ password })}
-          value={this.state.password}
-        />
+        {this.state.type === 'signup' && (
+          <TextInput
+            style={styles.textInput}
+            autoCapitalize="none"
+            placeholder="Username"
+            onChangeText={username => this.setState({ username })}
+            value={this.state.username}
+          />
+        )}
         {this.state.type === 'signup' && (
           <TextInput
             style={styles.textInput}
@@ -71,6 +74,14 @@ export default class Login extends React.Component {
             value={this.state.licensePlate}
           />
         )}
+        <TextInput
+          secureTextEntry
+          style={styles.textInput}
+          autoCapitalize="none"
+          placeholder="Password"
+          onChangeText={password => this.setState({ password })}
+          value={this.state.password}
+        />
         {this.state.type === 'login' && (
           <Text>
             <Button title="Login" onPress={this.handleLogin} />

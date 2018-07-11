@@ -6,7 +6,8 @@ import {
   Settings,
   Report,
   Search,
-  Navbar
+  Navbar,
+  OtherUsers
 } from './components'
 
 const RootNavigator = createStackNavigator(
@@ -49,6 +50,12 @@ const RootNavigator = createStackNavigator(
     },
     Navbar: {
       screen: Navbar,
+      navigationOptions: {
+        header: null
+      }
+    },
+    OtherUsers: {
+      screen: OtherUsers,
       navigationOptions: {
         header: null
       }

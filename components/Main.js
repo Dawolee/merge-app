@@ -21,13 +21,12 @@ class Main extends React.Component {
 
   render() {
     const { currentUser } = this.state
-    console.log(currentUser)
     return (
       <View>
         <View>
           <Navbar text="Home" left={false} />
           <Text style={{ textAlign: 'center' }}>
-            Welcome {currentUser && currentUser.email}!
+            Welcome {currentUser && currentUser.displayName}!
           </Text>
           )
           <View style={styles.container}>

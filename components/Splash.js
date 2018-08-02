@@ -8,17 +8,19 @@ export default class Splash extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentUser: null
+      currentUser: 'loading'
     }
   }
 
   componentDidMount() {
     fire.auth().onAuthStateChanged(user => {
-      this.props.navigation.navigate(user ? 'Main' : 'Splash')
+      console.log('SUUSUSU', user)
       if (user) {
         this.setState({ currentUser: true })
       } else {
-        this.setState({ currentUser: null })
+        this.setState({ currentUser: null }, () => {
+          this.props.navigation.navigate('Splash')
+        })
       }
     })
   }
@@ -34,10 +36,15 @@ export default class Splash extends React.Component {
           MERGE
         </Text>
         <View style={styles.container}>
-          <Button
-            onPress={() => navigate(this.state.currentUser ? 'Main' : 'Login')}
-            title="Get Started"
-          />
+          {this.state.currentUser === 'loading' && <Text>Loading...</Text>}
+          {this.state.currentUser !== 'loading' && (
+            <Button
+              onPress={() =>
+                navigate(this.state.currentUser ? 'Main' : 'Login')
+              }
+              title="Get Started"
+            />
+          )}
         </View>
       </ImageBackground>
     )

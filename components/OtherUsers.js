@@ -19,6 +19,7 @@ export default class OtherUsers extends React.Component {
     const { navigation } = this.props
     const { goBack } = navigation
     const username = navigation.getParam('username')
+    console.log(username)
     const { currentUser } = this.state
     return (
       <View>
@@ -26,7 +27,7 @@ export default class OtherUsers extends React.Component {
         )
         <View style={styles.container}>
           <ScrollView>
-            <Card title={username}>
+            <Card image={require('../public/car.png')} title={username}>
               <Text style={{ marginBottom: 10 }}>
                 Placeholder for where user's reviews show up
               </Text>

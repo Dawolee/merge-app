@@ -1,8 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import { SearchBar, Button } from 'react-native-elements'
+import { SearchBar, Button, List, ListItem } from 'react-native-elements'
 import Navbar from './Navbar'
 import fire from './fire'
+import car from '../public/car.png'
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -39,6 +40,9 @@ export default class Search extends React.Component {
   render() {
     let { plates, search, currentUser } = this.state
     let filteredPlates = plates.filter(
+      plate => plate.email !== currentUser.email
+    )
+    let searchPlates = filteredPlates.filter(
       plate =>
         plate.email !== currentUser.email &&
         search.length > 0 &&
@@ -65,23 +69,35 @@ export default class Search extends React.Component {
             placeholder="Type Here..."
           />
           <View>
-            {filteredPlates.length &&
+            {!search &&
               filteredPlates.map(plate => (
-                <View
+                <ListItem
+                  roundAvatar
+                  avatar={require('../public/car.png')}
                   key={plate.licensePlateNumber}
-                  style={{ flexDirection: 'row' }}
-                >
-                  <Text>{plate.username}</Text>
-                  <Text>{plate.licensePlateNumber}</Text>
-                  <Button
-                    onPress={() =>
-                      navigate('OtherUsers', {
-                        username: plate.username
-                      })
-                    }
-                    title="View Profile"
-                  />
-                </View>
+                  title={`username: ${plate.username}`}
+                  subtitle={`plate #: ${plate.licensePlateNumber}`}
+                  onPress={() =>
+                    navigate('OtherUsers', {
+                      username: plate.username
+                    })
+                  }
+                />
+              ))}
+            {searchPlates.length &&
+              searchPlates.map(plate => (
+                <ListItem
+                  roundAvatar
+                  avatar={require('../public/car.png')}
+                  key={plate.licensePlateNumber}
+                  title={`username: ${plate.username}`}
+                  subtitle={`plate #: ${plate.licensePlateNumber}`}
+                  onPress={() =>
+                    navigate('OtherUsers', {
+                      username: plate.username
+                    })
+                  }
+                />
               ))}
           </View>
         </View>
@@ -99,3 +115,23 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 })
+{
+  /* <View
+                  key={plate.licensePlateNumber}
+                  style={{ flexDirection: 'row' }}
+                >
+                  <Text>
+                    <Text>Username: {plate.username}</Text>
+                    {'\n'}
+                    <Text>License #: {plate.licensePlateNumber}</Text>
+                  </Text>
+                  <Button
+                    onPress={() =>
+                      navigate('OtherUsers', {
+                        username: plate.username
+                      })
+                    }
+                    title="View Profile"
+                  />
+                </View> */
+}

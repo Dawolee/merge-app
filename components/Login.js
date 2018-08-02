@@ -1,5 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
+import { StyleSheet, TextInput, View, Button, Image } from 'react-native'
+import {
+  Text,
+  FormLabel,
+  FormInput,
+  FormValidationMessage,
+  Avatar
+} from 'react-native-elements'
 import fire from './fire'
 
 export default class Login extends React.Component {
@@ -9,9 +16,7 @@ export default class Login extends React.Component {
       email: '',
       password: '',
       errorMessage: null,
-      type: 'login',
-      licensePlate: null,
-      username: null
+      type: 'login'
     }
   }
 
@@ -30,60 +35,39 @@ export default class Login extends React.Component {
     fire
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user =>
-        db.ref('users').push({
-          email: this.state.email,
-          licensePlateNumber: this.state.licensePlate,
-          username: this.state.username
-        })
-      )
-      .then(() => this.props.navigation.navigate('Main'))
+      .then(() => this.props.navigation.navigate('SetDisplayName'))
       .catch(error => this.setState({ errorMessage: error.message }))
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {this.state.type === 'login' && <Text>Login</Text>}
-        {this.state.type === 'signup' && <Text>Sign Up</Text>}
-        {this.state.errorMessage && (
-          <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
-        )}
-        <TextInput
-          style={styles.textInput}
+        <View style={styles.center}>
+          {this.state.type === 'login' && <Text h1>Login</Text>}
+          {this.state.type === 'signup' && <Text h1>Sign Up</Text>}
+        </View>
+        <FormLabel>Email</FormLabel>
+        <FormInput
           autoCapitalize="none"
           placeholder="Email"
           onChangeText={email => this.setState({ email })}
           value={this.state.email}
         />
-        {this.state.type === 'signup' && (
-          <TextInput
-            style={styles.textInput}
-            autoCapitalize="none"
-            placeholder="Username"
-            onChangeText={username => this.setState({ username })}
-            value={this.state.username}
-          />
-        )}
-        {this.state.type === 'signup' && (
-          <TextInput
-            style={styles.textInput}
-            autoCapitalize="none"
-            placeholder="License Plate Number"
-            onChangeText={licensePlate => this.setState({ licensePlate })}
-            value={this.state.licensePlate}
-          />
-        )}
-        <TextInput
+        <FormLabel>Password</FormLabel>
+        <FormInput
           secureTextEntry
-          style={styles.textInput}
           autoCapitalize="none"
           placeholder="Password"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
+        {this.state.errorMessage && (
+          <FormValidationMessage style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </FormValidationMessage>
+        )}
         {this.state.type === 'login' && (
-          <Text>
+          <Text h1>
             <Button title="Login" onPress={this.handleLogin} />
             <Button
               title="Don't have an account? Sign Up"
@@ -92,7 +76,7 @@ export default class Login extends React.Component {
           </Text>
         )}
         {this.state.type === 'signup' && (
-          <Text>
+          <Text h1>
             <Button title="Sign Up" onPress={this.handleSignUp} />
             <Button
               title="Already have an account? Login"
@@ -107,8 +91,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
   textInput: {
     height: 40,
@@ -116,5 +99,6 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     marginTop: 8
-  }
+  },
+  center: {}
 })

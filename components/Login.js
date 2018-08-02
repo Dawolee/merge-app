@@ -1,11 +1,12 @@
 import React from 'react'
-import { StyleSheet, TextInput, View, Button, Image } from 'react-native'
+import { StyleSheet, TextInput, View, Image } from 'react-native'
 import {
   Text,
   FormLabel,
   FormInput,
   FormValidationMessage,
-  Avatar
+  Avatar,
+  Button
 } from 'react-native-elements'
 import fire from './fire'
 
@@ -40,6 +41,12 @@ export default class Login extends React.Component {
   }
 
   render() {
+    let title = this.state.type === 'login' ? 'Login' : 'Sign Up'
+    let subTitle =
+      this.state.type === 'login'
+        ? "Don't have an account? Sign Up"
+        : 'Already have an account? Login'
+    let fn = this.state.type === 'login' ? this.handleLogin : this.handleSignUp
     return (
       <View style={styles.container}>
         <View style={styles.center}>
@@ -66,24 +73,17 @@ export default class Login extends React.Component {
             {this.state.errorMessage}
           </FormValidationMessage>
         )}
-        {this.state.type === 'login' && (
-          <Text h1>
-            <Button title="Login" onPress={this.handleLogin} />
-            <Button
-              title="Don't have an account? Sign Up"
-              onPress={() => this.setState({ type: 'signup' })}
-            />
-          </Text>
-        )}
-        {this.state.type === 'signup' && (
-          <Text h1>
-            <Button title="Sign Up" onPress={this.handleSignUp} />
-            <Button
-              title="Already have an account? Login"
-              onPress={() => this.setState({ type: 'login' })}
-            />
-          </Text>
-        )}
+        <Button title={title} onPress={fn} />
+        <Button
+          title={subTitle}
+          onPress={() => {
+            if (this.state.type === 'login') {
+              this.setState({ type: 'signup' })
+            } else {
+              this.setState({ type: 'login' })
+            }
+          }}
+        />
       </View>
     )
   }
@@ -100,5 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 8
   },
-  center: {}
+  button: {
+    width: 100
+  }
 })

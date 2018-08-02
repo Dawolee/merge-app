@@ -1,5 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
+import { Text } from 'react-native-elements'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import { Navbar } from './index'
 import fire from './fire'
@@ -25,7 +26,7 @@ class Main extends React.Component {
       <View>
         <View>
           <Navbar text="Home" left={false} />
-          <Text style={{ textAlign: 'center' }}>
+          <Text h4 style={{ textAlign: 'center' }}>
             Welcome {currentUser && currentUser.displayName}!
           </Text>
           )

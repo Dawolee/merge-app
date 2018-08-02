@@ -1,12 +1,15 @@
 import React from 'react'
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native'
+import { StyleSheet, View, TextInput } from 'react-native'
 import {
+  Text,
   FormLabel,
   FormInput,
-  FormValidationMessage
+  FormValidationMessage,
+  Button
 } from 'react-native-elements'
 import Navbar from './Navbar'
 import fire from './fire'
+import firebase from 'firebase'
 
 export default class Settings extends React.Component {
   state = {
@@ -14,7 +17,8 @@ export default class Settings extends React.Component {
     email: '',
     password: '',
     licensePlate: null,
-    username: null
+    username: null,
+    newPassword: ''
   }
 
   componentDidMount() {
@@ -27,12 +31,58 @@ export default class Settings extends React.Component {
     })
   }
 
+  reauthenticate = currentPassword => {
+    var user = fire.auth().currentUser
+    var cred = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    )
+    return user.reauthenticateAndRetrieveDataWithCredential(cred)
+  }
+
+  changePassword = (currentPassword, newPassword) => {
+    this.reauthenticate(currentPassword)
+      .then(() => {
+        let user = fire.auth().currentUser
+        user
+          .updatePassword(newPassword)
+          .then(() => {
+            console.log('Password updated!')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  changeEmail = (currentPassword, newEmail) => {
+    this.reauthenticate(currentPassword)
+      .then(() => {
+        let user = fire.auth().currentUser
+        user
+          .updateEmail(newEmail)
+          .then(() => {
+            console.log('Email updated!')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   render() {
     return (
       <View>
         <Navbar text="My Settings" left={false} />
-        <Text>Update Your Settings</Text>
-        <TextInput
+        <Text h2>Update Your Settings</Text>
+        <FormLabel>Username</FormLabel>
+        <FormInput
           style={styles.textInput}
           autoCapitalize="none"
           placeholder="Username"
@@ -40,7 +90,8 @@ export default class Settings extends React.Component {
           value={this.state.username}
           defaultValue={this.state.username}
         />
-        <TextInput
+        <FormLabel>Email</FormLabel>
+        <FormInput
           style={styles.textInput}
           autoCapitalize="none"
           placeholder="Email"
@@ -48,7 +99,7 @@ export default class Settings extends React.Component {
           value={this.state.email}
           defaultValue={this.state.email}
         />
-        <FormLabel>Password</FormLabel>
+        <FormLabel>Current Password</FormLabel>
         <FormInput
           secureTextEntry
           style={styles.textInput}
@@ -56,7 +107,21 @@ export default class Settings extends React.Component {
           placeholder="Password"
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
-          defaultValue={this.state.password}
+        />
+        <FormLabel>New Password</FormLabel>
+        <FormInput
+          secureTextEntry
+          style={styles.textInput}
+          autoCapitalize="none"
+          placeholder="Password"
+          onChangeText={newPassword => this.setState({ newPassword })}
+          value={this.state.newPassword}
+        />
+        <Button
+          title="Confirm Changes"
+          onPress={() =>
+            this.changePassword(this.state.password, this.state.newPassword)
+          }
         />
       </View>
     )

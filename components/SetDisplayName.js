@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native'
+import { StyleSheet, TextInput, View, Button } from 'react-native'
+import { Text, FormValidationMessage } from 'react-native-elements'
 import fire from './fire'
 
 export default class SetDisplayName extends Component {
@@ -42,9 +43,11 @@ export default class SetDisplayName extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Set your Username here!</Text>
+        <Text h1>Set your Username here!</Text>
         {this.state.errorMessage && (
-          <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
+          <FormValidationMessage style={{ color: 'red' }}>
+            {this.state.errorMessage}
+          </FormValidationMessage>
         )}
         <TextInput
           style={styles.textInput}
